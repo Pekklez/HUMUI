@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.uaq.HUMUI.Activities.videoActivity"
+    android:background="#FFFFFF">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/relativeLayoutTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="40%"
+        android:background="#FFFFFF"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/imageViewEscudos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="30%"
+            android:background="@mipmap/escudos"
+            android:layout_marginBottom="20dp"></ImageView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="80%"
+            app:layout_heightPercent="35%"
+            android:layout_below="@+id/imageViewEscudos"
+            android:background="@mipmap/humui1_01"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"/>
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/relativeLayoutTop"
+        android:id="@+id/relativeLayout2">
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:id="@+id/youtube_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Iniciar Sesión  "
+        android:id="@+id/buttonGoMain"
+        android:background="@drawable/btn_default"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+
+</android.support.percent.PercentRelativeLayout>

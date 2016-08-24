@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.uaq.HUMUI.Activities.loggedActivity"
+    android:background="#FFCC33">
+
+
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="50%"
+        android:background="#FFFFFF"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/imageViewEscudos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="30%"
+            android:background="@mipmap/escudos"
+            android:layout_marginBottom="20dp"></ImageView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="90%"
+            app:layout_heightPercent="35%"
+            android:layout_below="@+id/imageViewEscudos"
+            android:background="@mipmap/humui1_01"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"/>
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <ImageView
+        android:id="@+id/ImageViewFacebook_logged"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ImageViewFacebook_logged"
+        android:id="@+id/relativeLayout2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="User"
+            android:id="@+id/buttonUserName"
+            android:background="@drawable/btn_retos_default"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:clickable = "false"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_widthPercent="33%"
+                app:layout_heightPercent="50%"
+                android:layout_below="@+id/buttonUserName"
+                android:id="@+id/imageViewMPADIS"
+                android:background="@mipmap/botonmpadispag5"
+                android:layout_marginTop="10dp"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="33%"
+            app:layout_heightPercent="50%"
+            android:id="@+id/imageViewRetos"
+            android:background="@mipmap/botonretospag5"
+            android:layout_below="@+id/buttonUserName"
+            android:layout_toRightOf="@+id/imageViewMPADIS"
+            android:layout_marginTop="10dp"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_widthPercent="33%"
+            app:layout_heightPercent="50%"
+            android:id="@+id/imageViewLogros"
+            android:background="@mipmap/botonlogrospag5"
+            android:layout_below="@+id/buttonUserName"
+            android:layout_toRightOf="@+id/imageViewRetos"
+            android:layout_marginTop="10dp"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+</android.support.percent.PercentRelativeLayout>

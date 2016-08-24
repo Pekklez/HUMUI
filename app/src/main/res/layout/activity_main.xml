@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.uaq.HUMUI.Activities.MainActivity"
+    android:background="#2EB2AB">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/relativeLayoutTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:layout_heightPercent="30%">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_heightPercent="50%"
+            android:layout_centerVertical="true"
+            android:id="@+id/imageViewLogo"
+            android:background="@mipmap/titulopag2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/relativeLayoutogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="17%"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/relativeLayoutTop">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageViewFacebook_login"
+            android:background="@mipmap/botonfbpag2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageViewTwitter_Login"
+            android:background="@mipmap/botontwpag2"
+            android:layout_below="@+id/imageViewFacebook_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/relativeLayoutmiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="15%"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/relativeLayoutogin">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_heightPercent="100%"
+            android:layout_marginTop="10dp"
+            android:id="@+id/imageViewInstagram_Login"
+            android:background="@mipmap/titulo3pag2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+        </android.support.percent.PercentRelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="12%"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/relativeLayoutmiddle">
+        <!--     Pie de pagina -->
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="17%"
+            android:id="@+id/imageViewSustentabilidad"
+            android:background="@mipmap/botonsust2pag2"
+            android:layout_marginBottom="10dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="17%"
+            android:id="@+id/imageViewEducacion"
+            android:background="@mipmap/botonculpag2"
+            android:layout_toRightOf="@+id/imageViewSustentabilidad"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="17%"
+            android:id="@+id/imageViewVinculacion"
+            android:background="@mipmap/botonvinpag2"
+            android:layout_toRightOf="@+id/imageViewEducacion"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="17%"
+            android:id="@+id/imageViewInlcusion"
+            android:background="@mipmap/botonincpag2"
+            android:layout_toRightOf="@+id/imageViewVinculacion"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_widthPercent="17%"
+            android:id="@+id/imageViewInfraestructura"
+            android:background="@mipmap/botoninfpag2"
+            android:layout_toRightOf="@+id/imageViewInlcusion"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"/>
+
+    </android.support.percent.PercentRelativeLayout>
+</android.support.percent.PercentRelativeLayout>
+</android.support.percent.PercentRelativeLayout>

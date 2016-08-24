@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.uaq.HUMUI.Activities.categorias.educacionActivity"
+    android:background="#33CC99">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/relativeLayout0">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/relativeLayout1">
+
+        <ImageView
+            android:layout_width="59dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageView2"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/iconos_logros"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UN MEJOR MUNDO
+ SE CONSTRUYE CON ACCIONES,
+NO CON INDIFERENCIA.
+ JUNTOS PODEMOS
+ TRANSFORMARLO."
+            android:id="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/imageView2"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="20dp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relativeLayoutSlider">
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horizontalScrollView"
+            android:layout_alignParentTop="true"
+            android:fillViewport="true"
+            android:measureAllChildren="false"
+            android:scrollbars="none"    >
+
+            <LinearLayout
+                android:id="@+id/linearParent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/linearChild0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                        <ImageView
+                            android:layout_width="100px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView0" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearChild1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView3" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView3"
+                            android:text="Barometro Digital, Altimetro Brujula Termometro Higrometro"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView4" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView4"
+                            android:text="Bluedio Ht Bluetooth Auriculares Bluetooth Inalámbricos."
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView5" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView5"
+                            android:text="Calculadora Científica Casio Fx991es Plus"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                android:layout_width="10dp"
+                android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView7" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView7"
+                            android:text="Disco Duro Externo Adata 1tb Hv100 Usb 3.0 Wow Mini Portatil"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView8" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView8"
+                            android:text="Kit Herramienta Mecanica Y Electrica 105 Piezas Msi"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView9" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView9"
+                            android:text="Kingston Digital Datatraveler Se9 32gb Usb 2.0 Flash Drive"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView10" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView10"
+                            android:text="Eco Lápices de color Faber Castell Acuarelables 24 pzas."
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView11" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView11"
+                            android:text="LAPTOP LENOVO 100-14IBY INTEL CELERON RAM 2 GB DD 500 GB"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView12" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView12"
+                            android:text="Mochila SwissGear 6601 Negro"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView13" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView13"
+                            android:text="Mouse Gamer Logitech Moba Gaming G302 / Led Conf. / 4000 Dpi"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView14" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView14"
+                            android:text="MULTÍMETRO DIGITAL PROFESIONAL CON AUTO RANGO"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView15" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView15"
+                            android:text="Tablet 3g Dual Sim Celular - Dual Core 7 Android Kitkat 1gb"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChild4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent" >
+                        <ImageView
+                            android:layout_width="370px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageView6" />
+                        <TextView
+                            android:layout_width="370px"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageView6"
+                            android:text="Lapiz De Dibujo Derwent"
+                            android:layout_marginTop="2dp"
+                            android:textAlignment="center"
+                            android:textColor="#000000" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearChildx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                        <ImageView
+                            android:layout_width="100px"
+                            android:layout_height="245px"
+                            android:id="@+id/imageViewx" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:id="@+id/prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:descendantFocusability="blocksDescendants" >
+            <ImageView
+                android:layout_width="78px"
+                android:layout_height="78px"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/arrow_prev" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:descendantFocusability="blocksDescendants" >
+            <ImageView
+                android:layout_width="78px"
+                android:layout_height="78px"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/arrow_next" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
