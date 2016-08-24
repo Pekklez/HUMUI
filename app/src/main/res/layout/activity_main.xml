@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.uaq.HUMUI.Activities.MainActivity"
-    android:background="#2EB2AB">
+    android:background="#009688">
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        app:layout_heightPercent="30%">
+        app:layout_heightPercent="40%">
 
         <ImageView
             android:layout_width="wrap_content"

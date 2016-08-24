@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.uaq.HUMUI">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -46,10 +45,10 @@
         <activity
             android:name=".Activities.loggedActivity"
             android:label="@string/title_activity_logged"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme_LoggedActivity" />
         <activity
             android:name=".Activities.videoActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme_VideoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,11 +71,11 @@
             android:name=".Activities.categorias.infraestructuraActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.RecompensasActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/Theme_RecompensasActivity"/>
         <activity android:name=".Activities.LogrosActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.retos.ActividadPrincipal"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.retos.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.retos.RetosCumplidos.DetailRetoInscritoActivity"

@@ -7,6 +7,13 @@
 <color name="PrimaryColor">#2196F3</color>
 <color name="PrimaryDarkColor">#971976d2</color>
 
+
+<color name="amarillo">#FFCC33</color>
+<color name="amarilloOsc">#FBC02D</color>
+
+
+
+
 <color name="verde">#DCEDC8</color>
 <color name="verde_oscuro">#8BC34A</color>
 
@@ -23,5 +30,6 @@
 <color name="transparent">#00000000</color>
 <color name="semitransparent">#33000000</color>
 <color name="statusBarColor">#a90066fe</color>
+    <color name="black">#00796b</color>
 
 </resources>
