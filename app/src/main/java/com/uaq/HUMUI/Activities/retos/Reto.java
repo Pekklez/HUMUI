@@ -123,6 +123,16 @@ public class Reto {
     private Integer MPADIS;
     private String Link;
     private Integer Limite;
+
+    public String getHashtag() {
+        return hashtag;
+    }
+
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
+    }
+
+    private String hashtag;
     private Date mDate;
     private boolean solved;
 

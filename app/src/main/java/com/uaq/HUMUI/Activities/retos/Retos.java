@@ -1,12 +1,6 @@
 package com.uaq.HUMUI.Activities.retos;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.view.ViewPager;
-
-import com.uaq.HUMUI.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -126,18 +120,54 @@ public class Retos {
                     approved= new Boolean(json.getBoolean("approved"));
 
                     if(approved) {
-                        id = new String(json.getString("_id"));
-                        nombre = new String(json.getString("nombre"));
-                        categoria= new String(json.getString("categoria"));
-                        descripcion = new String(json.getString("descripcion"));
-                        historia = new String(json.getString("historia"));
-                        contacto = new String(json.getString("contacto"));
-                        vigencia = new String(json.getString("vigencia"));
-                        logistica = new String(json.getString("logistica"));
-                        notas = new String(json.getString("notas"));
-                        mpadis = new Integer(json.getInt("mpadis"));
-                        link = new String(json.getString("link"));
-                        limite= new Integer(json.getInt("limit"));
+                        if(!json.isNull("_id"))
+                            id = new String(json.getString("_id"));
+                        else
+                            id = "";
+                        if(!json.isNull("nombre"))
+                            nombre = new String(json.getString("nombre"));
+                        else
+                            nombre = "";
+                        if(!json.isNull("categoria"))
+                            categoria= new String(json.getString("categoria"));
+                        else
+                            categoria = "";
+                        if(!json.isNull("descripcion"))
+                            descripcion = new String(json.getString("descripcion"));
+                        else
+                            descripcion = "";
+                        if(!json.isNull("historia"))
+                            historia = new String(json.getString("historia"));
+                        else
+                            historia = "";
+                        if(!json.isNull("contacto"))
+                            contacto = new String(json.getString("contacto"));
+                        else
+                            contacto = "";
+                        if(!json.isNull("vigencia"))
+                            vigencia = new String(json.getString("vigencia"));
+                        else
+                            vigencia = "";
+                        if(!json.isNull("logistica"))
+                            logistica = new String(json.getString("logistica"));
+                        else
+                            logistica = "";
+                        if(!json.isNull("notas"))
+                            notas = new String(json.getString("notas"));
+                        else
+                            notas = "";
+                        if(!json.isNull("mpadis"))
+                            mpadis = new Integer(json.getInt("mpadis"));
+                        else
+                            mpadis = 0;
+                        if(json.isNull("link") || json.getString("link").equals(""))
+                            link = "(:";
+                        else
+                            link = json.getString("link");
+                        if(!json.isNull("limit"))
+                            limite= new Integer(json.getInt("limit"));
+                        else
+                            limite = 0;
 
                         ret = new Reto();
                         ret.set_id(id);

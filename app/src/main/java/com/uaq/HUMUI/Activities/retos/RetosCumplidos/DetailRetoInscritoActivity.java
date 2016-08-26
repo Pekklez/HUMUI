@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -51,12 +50,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import io.fabric.sdk.android.Fabric;
-import io.fabric.sdk.android.services.network.HttpMethod;
 
 
 public class DetailRetoInscritoActivity extends AppCompatActivity {
@@ -66,6 +62,8 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
     private static final String EXTRA_DRAWABLE = "com.uaq.toolbarapp.drawable";
     private CallbackManager callbackManager;
     ShareDialog shareDialog;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +90,8 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         final String _IDUSER  = i.getExtras().getString("EXTRA__IDUSER");
         final String _ID  = i.getExtras().getString("EXTRA__ID");
         final String NAME  = i.getExtras().getString("EXTRA_NAME");
+        final String HASHTAG  = "#" + i.getExtras().getString("EXTRA_HASHTAG");
+
         String CATEGORIA  = i.getExtras().getString("EXTRA_CATEGORIA");
         String DESCRIPCION  = i.getExtras().getString("EXTRA_DESCRIPCION");
         String HISTORIA  = i.getExtras().getString("EXTRA_HISTORIA");
@@ -102,6 +102,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         Integer MPDAIS = i.getExtras().getInt("EXTRA_MPADIS");
         String LINK  = i.getExtras().getString("EXTRA_LINK");
         Integer LIMITE = i.getExtras().getInt("EXTRA_LIMITE");
+
 
 
         getSupportActionBar().setTitle(NAME);
@@ -189,7 +190,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         btn_shareFB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareDialog();
+                ShareDialog(HASHTAG);
             }
         });
 
@@ -198,7 +199,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TweetComposer.Builder builder = new TweetComposer.Builder(mContext)
-                        .text(getString(R.string.hashtag));
+                        .text(getString(R.string.hashtag) + " " + HASHTAG);
                 builder.show();
             }
         });
@@ -246,7 +247,10 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
     }
 
 
-    public void ShareDialog(){
+    public void ShareDialog(String hashtag){
+
+        String TAG = "RETO HASHTAG";
+        Log.v(TAG,hashtag );
 
         Drawable resImg = getApplicationContext().getResources().getDrawable(R.mipmap.ic_launcher);
         Bitmap image =((BitmapDrawable)resImg).getBitmap();
@@ -259,6 +263,9 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
                 .addPhoto(photo)
                 .setShareHashtag(new ShareHashtag.Builder()
                         .setHashtag(getString(R.string.hashtag))
+                        .build())
+                .setShareHashtag(new ShareHashtag.Builder()
+                        .setHashtag(hashtag)
                         .build())
                 .build();
 

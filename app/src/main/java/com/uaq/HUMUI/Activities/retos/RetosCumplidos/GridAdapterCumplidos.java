@@ -72,6 +72,7 @@ public class GridAdapterCumplidos extends ArrayAdapter<Reto> {
                 myIntent.putExtra("EXTRA_MPADIS", item.getMPADIS());
                 myIntent.putExtra("EXTRA_LINK", item.getLink());
                 myIntent.putExtra("EXTRA_LIMITE", item.getLimite());
+                myIntent.putExtra("EXTRA_HASHTAG", item.getHashtag());
 
                 v.getContext().startActivity(myIntent);
             }

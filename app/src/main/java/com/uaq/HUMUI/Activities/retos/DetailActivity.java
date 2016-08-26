@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,17 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.share.model.ShareHashtag;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -215,9 +206,6 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -233,7 +221,6 @@ public class DetailActivity extends AppCompatActivity {
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(getApplicationContext());
     }
-
 
     public class RegistrarUsertoReto extends AsyncTask<String, String, String> {
 

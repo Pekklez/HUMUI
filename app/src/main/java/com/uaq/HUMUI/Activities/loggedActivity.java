@@ -6,18 +6,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.uaq.HUMUI.Activities.retos.ActividadPrincipal;
-import com.uaq.HUMUI.R;
 
 import java.io.InputStream;
 
@@ -77,14 +75,14 @@ public class loggedActivity extends AppCompatActivity {
             }
         });
 
-        ImageView imageViewLogros = (ImageView)findViewById(R.id.imageViewLogros);
+        /*ImageView imageViewLogros = (ImageView)findViewById(R.id.imageViewLogros);
         imageViewLogros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentMenuActivity = new Intent(loggedActivity.this, LogrosActivity.class);
                 startActivity(intentMenuActivity);
             }
-        });
+        });*/
     }
 }
 class getUserPicFB extends AsyncTask<String, Void, Bitmap>{

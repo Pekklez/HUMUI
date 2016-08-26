@@ -24,7 +24,7 @@ public class RetosInscrito {
 
     private static String url = "http://ingenieria.uaq.mx/humui/api/token/humui2016token/reto/list/by/user/";
 
-    String id,nombre,categoria,descripcion,historia,contacto,vigencia,logistica,notas,link;
+    String id,nombre,categoria,descripcion,historia,contacto,vigencia,logistica,notas,link, hashtag;
     int limite, mpadis;
     boolean approved;
 
@@ -145,6 +145,8 @@ public class RetosInscrito {
                         link = new String(jsonreto.getString("link"));
                         limite= new Integer(jsonreto.getInt("limit"));
                         approved= new Boolean(jsonreto.getBoolean("approved"));
+                        hashtag= new String(jsonreto.getString("hashtag"));
+
 
 
                         if(approved) {
@@ -162,6 +164,7 @@ public class RetosInscrito {
                             ret.setMPADIS(mpadis);
                             ret.setLink(link);
                             ret.setLimite(limite);
+                            ret.setHashtag(hashtag);
                             mRetos.add(ret);
                         }
                     } catch (JSONException e) {
