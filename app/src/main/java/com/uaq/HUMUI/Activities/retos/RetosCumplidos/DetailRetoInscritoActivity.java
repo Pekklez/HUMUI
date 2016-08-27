@@ -249,21 +249,15 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
     public void ShareDialog(String hashtag){
 
-        String TAG = "RETO HASHTAG";
-        Log.v(TAG,hashtag );
 
         Drawable resImg = getApplicationContext().getResources().getDrawable(R.mipmap.ic_launcher);
         Bitmap image =((BitmapDrawable)resImg).getBitmap();
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)
-                .setCaption(getString(R.string.hashtag))
                 .build();
         SharePhotoContent content = new SharePhotoContent.Builder()
                 .addPhoto(photo)
-                .setShareHashtag(new ShareHashtag.Builder()
-                        .setHashtag(getString(R.string.hashtag))
-                        .build())
                 .setShareHashtag(new ShareHashtag.Builder()
                         .setHashtag(hashtag)
                         .build())
@@ -275,11 +269,9 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
             public void onSuccess(Sharer.Result result) {
 
                 //obtenerpost(result.getPostId());
-                String TAG = "FOTO--->";
-                Log.v(TAG, "looooooool"+result.getPostId() );
+
 
             }
-
 
 
 

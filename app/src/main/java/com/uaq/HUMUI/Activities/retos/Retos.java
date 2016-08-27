@@ -1,6 +1,7 @@
 package com.uaq.HUMUI.Activities.retos;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,9 +121,9 @@ public class Retos {
                     approved= new Boolean(json.getBoolean("approved"));
 
                     if(approved) {
-                        if(!json.isNull("_id"))
+                        if(!json.isNull("_id")) {
                             id = new String(json.getString("_id"));
-                        else
+                        }else
                             id = "";
                         if(!json.isNull("nombre"))
                             nombre = new String(json.getString("nombre"));

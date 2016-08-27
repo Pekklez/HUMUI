@@ -72,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
 
         final String _IDUSER  = i.getExtras().getString("EXTRA__IDUSER");
         final String _ID  = i.getExtras().getString("EXTRA__ID");
+
         final String NAME  = i.getExtras().getString("EXTRA_NAME");
         String CATEGORIA  = i.getExtras().getString("EXTRA_CATEGORIA");
         String DESCRIPCION  = i.getExtras().getString("EXTRA_DESCRIPCION");
@@ -138,7 +139,7 @@ public class DetailActivity extends AppCompatActivity {
                                             if(result.equals("Created")){
                                                 new AlertDialog.Builder(DetailActivity.this)
                                                         .setTitle("Reto "+ NAME)
-                                                        .setMessage("Inscrito Correctamente el reto aparece en inscritos la proxima vez que inicies session")
+                                                        .setMessage("Inscrito Correctamente el reto aparece en inscritos la proxima vez que abras la app")
                                                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                             public void onClick(DialogInterface dialog, int which) {
                                                             }
@@ -227,29 +228,43 @@ public class DetailActivity extends AppCompatActivity {
         String json;
         String IdUser;
         String Reto;
+        String result;
 
         public RegistrarUsertoReto(String Reto, String IdUser) {
 
             this.IdUser = IdUser;
             this.Reto = Reto;
-
         }
-
 
         @Override
         protected String doInBackground(String... params) {
 
-            String result = makeRequest("http://ingenieria.uaq.mx/humui/api/token/humui2016token/reto/suscribe",
+            result = makeRequest("http://ingenieria.uaq.mx/humui/api/token/humui2016token/reto/suscribe",
                     this.Reto, this.IdUser);
             String TAG2 = "USER--->";
             Log.v(TAG2, this.IdUser );
+            String TAG = "USER->RETO--->";
+            Log.v(TAG, this.Reto );
             String TAG3 = "USER->RETO->Uns-->";
             Log.v(TAG3, result );
-            String TAG = "USER->RETO--->";
-            Log.v(TAG, result );
+
             return result;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            if (result.equals("Conflict")) {
+                new AlertDialog.Builder(DetailActivity.this)
+                        .setTitle("Reto lleno")
+                        .setMessage("Lo sentimos :(")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        }
     }
 
     public static String makeRequest(String url,String Reto, String IdUser) {
