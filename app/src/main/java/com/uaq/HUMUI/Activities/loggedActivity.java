@@ -1,5 +1,7 @@
 package com.uaq.HUMUI.Activities;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,42 +11,85 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uaq.HUMUI.Activities.retos.ActividadPrincipal;
 import com.uaq.HUMUI.Activities.retos.JSONParser;
 import com.uaq.HUMUI.R;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+
+import retrofit.client.Client;
 
 import static com.uaq.HUMUI.R.id.buttonUserName;
 import static com.uaq.HUMUI.R.id.expediente;
 
 public class loggedActivity extends AppCompatActivity {
 
-    public Button buttonUserName = (Button)findViewById(com.uaq.HUMUI.R.id.buttonUserName);
+    AlertDialog.Builder alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.uaq.HUMUI.R.layout.activity_logged);
 
-        //---GETMPADIS
-        String idUser = getIntent().getExtras().getString("idUser");
-        new getExpediente(idUser).execute();
+        final String idUser = getIntent().getExtras().getString("idUser");
 
+        alert = new AlertDialog.Builder(this);
+
+        final EditText edittext = new EditText(getApplicationContext());
+        edittext.setInputType(2);
+        edittext.setFilters(new InputFilter[] { new InputFilter.LengthFilter(7) });
+        alert.setMessage("¡Hola! Bienvenido a Hümui, para tener una mejor experiencia ingresa tu expediente UAQ: ");
+
+        alert.setView(edittext);
+
+        alert.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //What ever you want to do with the value
+                String expediente = edittext.getText().toString();
+                new EnviarExpediente(idUser,expediente).execute();
+            }
+        });
+
+        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // what ever you want to do with No option.
+            }
+        });
+
+
+        //---GETMPADIS
+
+        new getExpediente(idUser, alert).execute();
+
+        Button buttonUserName = (Button)findViewById(com.uaq.HUMUI.R.id.buttonUserName);
 
         Intent intent = getIntent();
         final Bundle extras = intent.getExtras();
@@ -182,9 +227,13 @@ class getUserPicTw extends AsyncTask<String, Void, Bitmap>{
 //------------------GET MPADIS
 class getExpediente extends AsyncTask<String, Void, JSONObject>{
 
+
+
     String IdUser;
-    public getExpediente(String idUser){
+    AlertDialog.Builder alert;
+    public getExpediente(String idUser, AlertDialog.Builder alert){
         this.IdUser = idUser;
+        this.alert = alert;
     }
 
     protected JSONObject doInBackground(String... urls) {
@@ -220,7 +269,7 @@ class getExpediente extends AsyncTask<String, Void, JSONObject>{
 
         // Getting JSON Array
         JSONArray User=null;
-        String expediente="";
+        Integer expediente;
         try {
             User = jsonObject.getJSONArray("User");
         } catch (JSONException e) {
@@ -238,10 +287,17 @@ class getExpediente extends AsyncTask<String, Void, JSONObject>{
 
             try {
 
-                expediente = new Integer(json.getInt("expediente")).toString();
+                expediente = new Integer(json.getInt("expediente"));
+
+                if(expediente == 0)
+                {
+
+                    this.alert.show();
+
+                }
 
                 String TAG3 = "EXPEDIENTE--------->";
-                Log.v(TAG3, expediente );
+                Log.v(TAG3, expediente.toString() );
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -249,4 +305,72 @@ class getExpediente extends AsyncTask<String, Void, JSONObject>{
         }
     }
 
+}
+class EnviarExpediente extends AsyncTask<String, String, String> {
+
+    String Id;
+    String result;
+    String expediente;
+
+
+
+
+    public EnviarExpediente(String Id, String expediente) {
+
+        this.Id = Id;
+        this.expediente = expediente;
+
+    }
+
+
+    @Override
+    protected String doInBackground(String... params) {
+        result = makeRequest("http://ingenieria.uaq.mx/humui/api/token/humui2016token/user/" + this.Id + "/expediente/set/" + this.expediente);
+        String TAG3 = "RESULT--------->";
+        Log.v(TAG3, result );
+        return result;
+    }
+
+
+    public static String makeRequest(String url) {
+        InputStream inputStream = null;
+        String result = "";
+        try {
+
+            String TAG3 = "URL--------->";
+            Log.v(TAG3, url );
+            // create HttpClient
+            HttpClient httpclient = new DefaultHttpClient();
+
+            // make GET request to the given URL
+            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+
+            // receive response as inputStream
+            inputStream = httpResponse.getEntity().getContent();
+
+            // convert InputStream to string
+            if(inputStream != null)
+                result = convertInputStreamToString(inputStream);
+            else
+                result = "InputStream did not work";
+
+        } catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+
+        return result;
+    }
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while ((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+
+        return result;
+
+    }
 }
