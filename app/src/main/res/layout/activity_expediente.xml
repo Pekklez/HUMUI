@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="100%"
+        app:layout_heightPercent="10%"
+        android:text="hola proporcionanos tu expediente"
+        android:textAlignment="center"/>
+
+
+    <ImageView
+        android:id="@+id/ImageViewFacebook_logged"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Expediente"
+        android:ems="10"
+        android:id="@+id/expediente"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/ImageViewFacebook_logged"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Continuar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendExpediente"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:onClick="enviarExpediente()"/>
+
+
+</android.support.percent.PercentRelativeLayout>

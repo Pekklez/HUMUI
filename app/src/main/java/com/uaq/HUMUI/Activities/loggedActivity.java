@@ -14,22 +14,40 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.uaq.HUMUI.Activities.retos.ActividadPrincipal;
+import com.uaq.HUMUI.Activities.retos.JSONParser;
+import com.uaq.HUMUI.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import static com.uaq.HUMUI.R.id.buttonUserName;
+import static com.uaq.HUMUI.R.id.expediente;
 
 public class loggedActivity extends AppCompatActivity {
+
+    public Button buttonUserName = (Button)findViewById(com.uaq.HUMUI.R.id.buttonUserName);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.uaq.HUMUI.R.layout.activity_logged);
 
+        //---GETMPADIS
+        String idUser = getIntent().getExtras().getString("idUser");
+        new getExpediente(idUser).execute();
+
 
         Intent intent = getIntent();
         final Bundle extras = intent.getExtras();
-        Button buttonUserName = (Button)findViewById(com.uaq.HUMUI.R.id.buttonUserName);
         ImageView imageViewFacebook_logged = (ImageView)findViewById(com.uaq.HUMUI.R.id.ImageViewFacebook_logged);
         if(extras != null){
 
@@ -160,7 +178,75 @@ class getUserPicTw extends AsyncTask<String, Void, Bitmap>{
         roundedDrawable.setCornerRadius(resized.getHeight());
         imageView.setImageDrawable(roundedDrawable);
     }
+}
+//------------------GET MPADIS
+class getExpediente extends AsyncTask<String, Void, JSONObject>{
+
+    String IdUser;
+    public getExpediente(String idUser){
+        this.IdUser = idUser;
+    }
+
+    protected JSONObject doInBackground(String... urls) {
+
+        String fullString = "";
+        URL url_url = null;
+        JSONObject jsonObject = null;
+        JSONParser jsonParser;
+        try {
+            String url = "http://ingenieria.uaq.mx/humui/api/token/humui2016token/user/get/"+this.IdUser;
+            url_url = new URL(url);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url_url.openStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fullString += line;
+
+            }
+            reader.close();
+
+            jsonParser = new JSONParser();
+            jsonObject = new JSONObject("{\"User\":["+fullString+"]}");
+
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    protected void onPostExecute(JSONObject jsonObject) {
+
+        // Getting JSON Array
+        JSONArray User=null;
+        String expediente="";
+        try {
+            User = jsonObject.getJSONArray("User");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
+        for (int i = 0; i < User.length(); i++) {
+            JSONObject json = null;
+            try {
+                json = User.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+
+                expediente = new Integer(json.getInt("expediente")).toString();
+
+                String TAG3 = "EXPEDIENTE--------->";
+                Log.v(TAG3, expediente );
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
