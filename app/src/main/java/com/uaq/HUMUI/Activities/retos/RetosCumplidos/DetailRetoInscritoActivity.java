@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +47,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -62,6 +66,9 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
     private static final String EXTRA_DRAWABLE = "com.uaq.toolbarapp.drawable";
     private CallbackManager callbackManager;
     ShareDialog shareDialog;
+    int REQUEST_CAMERA = 0;
+
+    public String HASHTAG;
 
 
 
@@ -69,6 +76,17 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_inscrito);
+
+        ImageButton imageShare = (ImageButton) findViewById(R.id.shareFB);
+
+        shareDialog = new ShareDialog(this);  // intialize facebook shareDialog.
+
+        imageShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
 
 
         setToolbar();// Añadir action bar
@@ -90,7 +108,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         final String _IDUSER  = i.getExtras().getString("EXTRA__IDUSER");
         final String _ID  = i.getExtras().getString("EXTRA__ID");
         final String NAME  = i.getExtras().getString("EXTRA_NAME");
-        final String HASHTAG  = "#" + i.getExtras().getString("EXTRA_HASHTAG");
+        HASHTAG  = "#" + i.getExtras().getString("EXTRA_HASHTAG");
 
         String CATEGORIA  = i.getExtras().getString("EXTRA_CATEGORIA");
         String DESCRIPCION  = i.getExtras().getString("EXTRA_DESCRIPCION");
@@ -186,14 +204,6 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
                 }
         );
 
-        ImageButton btn_shareFB = (ImageButton)findViewById(R.id.shareFB);
-        btn_shareFB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShareDialog(HASHTAG);
-            }
-        });
-
         ImageButton btn_shareTw = (ImageButton)findViewById(R.id.shareTw);
         btn_shareTw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,24 +249,70 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
     }
 
+    // this method is for create a dialog box to choose options to select Image to share on facebook.
+    private void selectImage() {
+        final CharSequence[] items = { "Take Photo", "Cancel" };
+
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DetailRetoInscritoActivity.this);
+        builder.setTitle("Selecciona la foto!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Tomar Foto")) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                } else if (items[item].equals("Cancelar")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == Activity.RESULT_OK) {
+
+            if (requestCode == REQUEST_CAMERA)
+
+                onCaptureImageResult(data);
+        }
+
     }
 
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
-    public void ShareDialog(String hashtag){
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ShareDialog(HASHTAG, thumbnail);
+    }
+
+    public void ShareDialog(String hashtag, Bitmap imagePath){
 
         String TAG = "RETO HASHTAG";
         Log.v(TAG,hashtag );
 
-        Drawable resImg = getApplicationContext().getResources().getDrawable(R.mipmap.ic_launcher);
-        Bitmap image =((BitmapDrawable)resImg).getBitmap();
-
         SharePhoto photo = new SharePhoto.Builder()
-                .setBitmap(image)
+                .setBitmap(imagePath)
                 .setCaption(getString(R.string.hashtag))
                 .build();
         SharePhotoContent content = new SharePhotoContent.Builder()
@@ -273,15 +329,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-
-                //obtenerpost(result.getPostId());
-                String TAG = "FOTO--->";
-                Log.v(TAG, "looooooool"+result.getPostId() );
-
             }
-
-
-
 
             @Override
             public void onCancel() {
@@ -293,10 +341,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
             }
         });
-
-
         shareDialog.show(content);
-
     }
 
 
