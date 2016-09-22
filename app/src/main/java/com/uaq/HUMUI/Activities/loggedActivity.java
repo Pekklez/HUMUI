@@ -1,6 +1,5 @@
 package com.uaq.HUMUI.Activities;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,27 +12,19 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.uaq.HUMUI.Activities.retos.ActividadPrincipal;
 import com.uaq.HUMUI.Activities.retos.JSONParser;
-import com.uaq.HUMUI.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,11 +35,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-
-import retrofit.client.Client;
-
-import static com.uaq.HUMUI.R.id.buttonUserName;
-import static com.uaq.HUMUI.R.id.expediente;
 
 public class loggedActivity extends AppCompatActivity {
 
@@ -227,10 +213,9 @@ class getUserPicTw extends AsyncTask<String, Void, Bitmap>{
 //------------------GET MPADIS
 class getExpediente extends AsyncTask<String, Void, JSONObject>{
 
-
-
     String IdUser;
     AlertDialog.Builder alert;
+
     public getExpediente(String idUser, AlertDialog.Builder alert){
         this.IdUser = idUser;
         this.alert = alert;
