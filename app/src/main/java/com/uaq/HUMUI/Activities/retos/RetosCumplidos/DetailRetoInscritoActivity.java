@@ -16,16 +16,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareHashtag;
@@ -42,8 +41,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -69,6 +66,13 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
     int REQUEST_CAMERA = 0;
 
     public String HASHTAG;
+
+    public String _IDUSER;
+    public String  NAME = "";
+
+    public String origen = "android-app" ;
+
+    EditText edtxExpReto;
 
 
 
@@ -105,9 +109,9 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
         Intent i = getIntent();
 
-        final String _IDUSER  = i.getExtras().getString("EXTRA__IDUSER");
         final String _ID  = i.getExtras().getString("EXTRA__ID");
-        final String NAME  = i.getExtras().getString("EXTRA_NAME");
+        _IDUSER  = i.getExtras().getString("EXTRA__IDUSER");
+        NAME  = i.getExtras().getString("EXTRA_NAME");
         HASHTAG  = "#" + i.getExtras().getString("EXTRA_HASHTAG");
 
         String CATEGORIA  = i.getExtras().getString("EXTRA_CATEGORIA");
@@ -251,21 +255,40 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
     // this method is for create a dialog box to choose options to select Image to share on facebook.
     private void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Cancel" };
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DetailRetoInscritoActivity.this);
-        builder.setTitle("Selecciona la foto!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Tomar Foto")) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_CAMERA);
-                } else if (items[item].equals("Cancelar")) {
-                    dialog.dismiss();
-                }
+        builder.setTitle("Compartir");
+        builder.setMessage("Hola, compartenos tu experiencia en el reto: ");
+        final TextView txtReto = new TextView(this);
+        edtxExpReto = new EditText(this);
+
+        txtReto.setText(NAME);
+        edtxExpReto.setHint("Experiencia en el Reto");
+
+        LinearLayout ll=new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+
+        ll.addView(txtReto);
+        ll.addView(edtxExpReto);
+
+        builder.setView(ll);
+
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //What ever you want to do with the value
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, REQUEST_CAMERA);
             }
         });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // what ever you want to do with No option.
+                dialog.dismiss();
+            }
+        });
+
         builder.show();
     }
 
@@ -302,6 +325,14 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // ID USER
+        // Reto
+        // Texto Experiencia
+        // Imagen
+        // Origen
+
+        new postRetoCompleto(_IDUSER, NAME, edtxExpReto.getText().toString(), origen, thumbnail).execute();
 
         ShareDialog(HASHTAG, thumbnail);
     }
@@ -344,31 +375,6 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         shareDialog.show(content);
     }
 
-
-    public void obtenerpost(String postId){
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                postId,
-                null,
-                com.facebook.HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        try {
-                            JSONArray rawData = response.getJSONObject().getJSONArray("data");
-
-                            for(int j=0; j<rawData.length();j++){
-                                String foto = ((JSONObject)rawData.get(j)).get("picture").toString();
-                                //String TAG = "FOTO--->";
-                                //Log.v(TAG, foto );
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-        ).executeAsync();
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -383,6 +389,103 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(getApplicationContext());
+    }
+
+
+    public class postRetoCompleto extends  AsyncTask<String, String, String>{
+
+        // ID USER
+        // Reto
+        // Texto Experiencia
+        // Imagen
+        // Origen
+
+        String id_user, reto, experiencia, origen;
+        Bitmap imagen;
+
+        public postRetoCompleto(String id_user, String reto, String experiencia, String origen, Bitmap imagen){
+            this.id_user = id_user;
+            this.reto = reto;
+            this.experiencia = experiencia;
+            this.origen = origen;
+            this.imagen = imagen;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String result = doPost(this.id_user, this.reto, this.experiencia, this.origen, this.imagen);
+
+            String TAG2 = "USER--->";
+            Log.v(TAG2, this.id_user );
+            String TAG3 = "USER->RETO->Uns-->";
+            Log.v(TAG3, result );
+            String TAG = "RETO--->";
+            Log.v(TAG, this.reto );
+            return result;
+        }
+
+        public String doPost (String id_user, String reto, String experiencia, String origen, Bitmap imagen){
+            InputStream inputStream = null;
+            String result = "";
+            try {
+
+                // 1. create HttpClient
+                HttpClient httpclient = new DefaultHttpClient();
+
+                // 2. make POST request to the given URL
+                HttpPost httpPost = new HttpPost("http://ingenieria.uaq.mx/humui/api/token/humui2016token/publication/put");
+
+                String json = "";
+
+                // 3. build jsonObject
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.accumulate("user", id_user);
+                jsonObject.accumulate("reto", reto);
+                jsonObject.accumulate("text", experiencia);
+                jsonObject.accumulate("origin", origen);
+                jsonObject.accumulate("image", imagen);
+
+
+
+                // 4. convert JSONObject to JSON to String
+                json = jsonObject.toString();
+
+                // ** Alternative way to convert Person object to JSON string usin Jackson Lib
+                // ObjectMapper mapper = new ObjectMapper();
+                // json = mapper.writeValueAsString(person);
+
+                // 5. set json to StringEntity
+                StringEntity se = new StringEntity(json);
+
+                // 6. set httpPost Entity
+                httpPost.setEntity(se);
+
+                // 7. Set some headers to inform server about the type of the content
+                httpPost.setHeader("Accept", "application/json");
+                httpPost.setHeader("Content-type", "application/json");
+
+                // 8. Execute POST request to the given URL
+                HttpResponse httpResponse = httpclient.execute(httpPost);
+
+                // 9. receive response as inputStream
+                inputStream = httpResponse.getEntity().getContent();
+
+                // 10. convert inputstream to string
+                if(inputStream != null)
+                    result = convertInputStreamToString(inputStream);
+                else
+                    result = "Did not work!";
+
+
+            } catch (Exception e) {
+                Log.d("InputStream", e.getLocalizedMessage());
+            }
+
+            // 11. return result
+            return result;
+
+        }
     }
 
 
