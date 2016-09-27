@@ -45,12 +45,21 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import io.fabric.sdk.android.Fabric;
@@ -69,6 +78,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
     public String _IDUSER;
     public String  NAME = "";
+    public String _ID;
 
     public String origen = "android-app" ;
 
@@ -109,7 +119,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
         Intent i = getIntent();
 
-        final String _ID  = i.getExtras().getString("EXTRA__ID");
+        _ID  = i.getExtras().getString("EXTRA__ID");
         _IDUSER  = i.getExtras().getString("EXTRA__IDUSER");
         NAME  = i.getExtras().getString("EXTRA_NAME");
         HASHTAG  = "#" + i.getExtras().getString("EXTRA_HASHTAG");
@@ -327,12 +337,12 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         }
 
         // ID USER
-        // Reto
+        // ID Reto
         // Texto Experiencia
         // Imagen
         // Origen
 
-        new postRetoCompleto(_IDUSER, NAME, edtxExpReto.getText().toString(), origen, thumbnail).execute();
+        new postRetoCompleto(_IDUSER, _ID, edtxExpReto.getText().toString(), origen, destination.getAbsolutePath()).execute();
 
         ShareDialog(HASHTAG, thumbnail);
     }
@@ -400,10 +410,9 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         // Imagen
         // Origen
 
-        String id_user, reto, experiencia, origen;
-        Bitmap imagen;
+        String id_user, reto, experiencia, origen, imagen;
 
-        public postRetoCompleto(String id_user, String reto, String experiencia, String origen, Bitmap imagen){
+        public postRetoCompleto(String id_user, String reto, String experiencia, String origen, String imagen){
             this.id_user = id_user;
             this.reto = reto;
             this.experiencia = experiencia;
@@ -418,64 +427,34 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
             String TAG2 = "USER--->";
             Log.v(TAG2, this.id_user );
-            String TAG3 = "USER->RETO->Uns-->";
-            Log.v(TAG3, result );
             String TAG = "RETO--->";
             Log.v(TAG, this.reto );
+            String TAG4 = "EXPERIENCIA--->";
+            Log.v(TAG4, this.experiencia );
+            String TAG5 = "ORIGEN--->";
+            Log.v(TAG5, this.origen );
+            String TAG6 = "RETO--->";
+            Log.v(TAG6, this.imagen);
+            String TAG3 = "USER->RETO->Uns-->";
+            Log.v(TAG3, result );
+
             return result;
         }
 
-        public String doPost (String id_user, String reto, String experiencia, String origen, Bitmap imagen){
+        public String doPost (String id_user, String reto, String experiencia, String origen, String imagen){
             InputStream inputStream = null;
             String result = "";
             try {
 
-                // 1. create HttpClient
-                HttpClient httpclient = new DefaultHttpClient();
+                //setup params
+                Map<String, String> params = new HashMap<String, String>(2);
+                params.put("user", this.id_user);
+                params.put("reto", this.reto);
+                params.put("text", this.experiencia);
+                params.put("origin", this.origen);
 
-                // 2. make POST request to the given URL
-                HttpPost httpPost = new HttpPost("http://ingenieria.uaq.mx/humui/api/token/humui2016token/publication/put");
-
-                String json = "";
-
-                // 3. build jsonObject
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("user", id_user);
-                jsonObject.accumulate("reto", reto);
-                jsonObject.accumulate("text", experiencia);
-                jsonObject.accumulate("origin", origen);
-                jsonObject.accumulate("image", imagen);
-
-
-
-                // 4. convert JSONObject to JSON to String
-                json = jsonObject.toString();
-
-                // ** Alternative way to convert Person object to JSON string usin Jackson Lib
-                // ObjectMapper mapper = new ObjectMapper();
-                // json = mapper.writeValueAsString(person);
-
-                // 5. set json to StringEntity
-                StringEntity se = new StringEntity(json);
-
-                // 6. set httpPost Entity
-                httpPost.setEntity(se);
-
-                // 7. Set some headers to inform server about the type of the content
-                httpPost.setHeader("Accept", "application/json");
-                httpPost.setHeader("Content-type", "application/json");
-
-                // 8. Execute POST request to the given URL
-                HttpResponse httpResponse = httpclient.execute(httpPost);
-
-                // 9. receive response as inputStream
-                inputStream = httpResponse.getEntity().getContent();
-
-                // 10. convert inputstream to string
-                if(inputStream != null)
-                    result = convertInputStreamToString(inputStream);
-                else
-                    result = "Did not work!";
+                    result = multipartRequest("http://ingenieria.uaq.mx/humui/api/token/humui2016token/publication/put", params, imagen, "image", "image/jpg");
+//next parse result string
 
 
             } catch (Exception e) {
@@ -485,6 +464,121 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
             // 11. return result
             return result;
 
+        }
+
+        public String multipartRequest(String urlTo, Map<String, String> parmas, String filepath, String filefield, String fileMimeType){
+            HttpURLConnection connection = null;
+            DataOutputStream outputStream = null;
+            InputStream inputStream = null;
+
+            String twoHyphens = "--";
+            String boundary = "*****" + Long.toString(System.currentTimeMillis()) + "*****";
+            String lineEnd = "\r\n";
+
+            String result = "";
+
+            int bytesRead, bytesAvailable, bufferSize;
+            byte[] buffer;
+            int maxBufferSize = 1 * 1024 * 1024;
+
+            String[] q = filepath.split("/");
+            int idx = q.length - 1;
+
+            try {
+                File file = new File(filepath);
+                FileInputStream fileInputStream = new FileInputStream(file);
+
+                URL url = new URL(urlTo);
+                connection = (HttpURLConnection) url.openConnection();
+
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Connection", "Keep-Alive");
+                connection.setRequestProperty("User-Agent", "Android Multipart HTTP Client 1.0");
+                connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+                outputStream = new DataOutputStream(connection.getOutputStream());
+                outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+                outputStream.writeBytes("Content-Disposition: form-data; name=\"" + filefield + "\"; filename=\"" + q[idx] + "\"" + lineEnd);
+                outputStream.writeBytes("Content-Type: " + fileMimeType + lineEnd);
+                outputStream.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
+
+                outputStream.writeBytes(lineEnd);
+
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                buffer = new byte[bufferSize];
+
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                while (bytesRead > 0) {
+                    outputStream.write(buffer, 0, bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                }
+
+                outputStream.writeBytes(lineEnd);
+
+                // Upload POST Data
+                Iterator<String> keys = parmas.keySet().iterator();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    String value = parmas.get(key);
+
+                    outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+                    outputStream.writeBytes("Content-Disposition: form-data; name=\"" + key + "\"" + lineEnd);
+                    outputStream.writeBytes("Content-Type: text/plain" + lineEnd);
+                    outputStream.writeBytes(lineEnd);
+                    outputStream.writeBytes(value);
+                    outputStream.writeBytes(lineEnd);
+                }
+
+                outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                inputStream = connection.getInputStream();
+
+                result = this.convertStreamToString(inputStream);
+
+                fileInputStream.close();
+                inputStream.close();
+                outputStream.flush();
+                outputStream.close();
+
+                return result;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        private String convertStreamToString(InputStream is) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+
+            String line = null;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return sb.toString();
         }
     }
 
