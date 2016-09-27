@@ -2,6 +2,7 @@ package com.uaq.HUMUI.Activities.retos.RetosCumplidos;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.text.Html;
 import android.util.Log;
 
 import com.uaq.HUMUI.Activities.retos.JSONParser;
@@ -133,19 +134,30 @@ public class RetosInscrito {
 
                     try {
                         id = new String(jsonreto.getString("_id"));
+                        id = Html.fromHtml(id).toString();
                         nombre = new String(jsonreto.getString("nombre"));
+                        nombre = Html.fromHtml(nombre).toString();
                         categoria= new String(jsonreto.getString("categoria"));
+                        categoria = Html.fromHtml(categoria).toString();
                         descripcion = new String(jsonreto.getString("descripcion"));
+                        descripcion = Html.fromHtml(descripcion).toString();
                         historia = new String(jsonreto.getString("historia"));
+                        historia = Html.fromHtml(historia).toString();
                         contacto = new String(jsonreto.getString("contacto"));
+                        contacto = Html.fromHtml(contacto).toString();
                         vigencia = new String(jsonreto.getString("vigencia"));
+                        vigencia = Html.fromHtml(vigencia).toString();
                         logistica = new String(jsonreto.getString("logistica"));
+                        logistica = Html.fromHtml(logistica).toString();
                         notas = new String(jsonreto.getString("notas"));
+                        notas = Html.fromHtml(notas).toString();
                         mpadis = new Integer(jsonreto.getInt("mpadis"));
                         link = new String(jsonreto.getString("link"));
+                        link = Html.fromHtml(link).toString();
                         limite= new Integer(jsonreto.getInt("limit"));
                         approved= new Boolean(jsonreto.getBoolean("approved"));
                         hashtag= new String(jsonreto.getString("hashtag"));
+                        hashtag = Html.fromHtml(hashtag).toString();
 
 
 

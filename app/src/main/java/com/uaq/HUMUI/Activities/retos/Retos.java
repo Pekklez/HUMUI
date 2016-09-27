@@ -1,7 +1,7 @@
 package com.uaq.HUMUI.Activities.retos;
 
 import android.os.AsyncTask;
-import android.util.Log;
+import android.text.Html;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -123,46 +123,67 @@ public class Retos {
                     if(approved) {
                         if(!json.isNull("_id")) {
                             id = new String(json.getString("_id"));
+                            id = Html.fromHtml(id).toString();
                         }else
                             id = "";
-                        if(!json.isNull("nombre"))
+                        if(!json.isNull("nombre")) {
                             nombre = new String(json.getString("nombre"));
+                            nombre = Html.fromHtml(nombre).toString();
+                        }
                         else
                             nombre = "";
-                        if(!json.isNull("categoria"))
-                            categoria= new String(json.getString("categoria"));
+                        if(!json.isNull("categoria")) {
+                            categoria = new String(json.getString("categoria"));
+                            categoria = Html.fromHtml(categoria).toString();
+                        }
                         else
                             categoria = "";
-                        if(!json.isNull("descripcion"))
+                        if(!json.isNull("descripcion")) {
                             descripcion = new String(json.getString("descripcion"));
+                            descripcion = Html.fromHtml(descripcion).toString();
+                        }
                         else
                             descripcion = "";
-                        if(!json.isNull("historia"))
+                        if(!json.isNull("historia")){
                             historia = new String(json.getString("historia"));
+                            historia = Html.fromHtml(historia).toString();
+                        }
                         else
                             historia = "";
-                        if(!json.isNull("contacto"))
+                        if(!json.isNull("contacto")){
                             contacto = new String(json.getString("contacto"));
+                            contacto = Html.fromHtml(contacto).toString();
+                        }
                         else
                             contacto = "";
-                        if(!json.isNull("vigencia"))
+                        if(!json.isNull("vigencia")) {
                             vigencia = new String(json.getString("vigencia"));
+                            vigencia = Html.fromHtml(vigencia).toString();
+                        }
                         else
                             vigencia = "";
-                        if(!json.isNull("logistica"))
+                        if(!json.isNull("logistica")) {
                             logistica = new String(json.getString("logistica"));
+                            logistica = Html.fromHtml(logistica).toString();
+                        }
                         else
                             logistica = "";
-                        if(!json.isNull("notas"))
+                        if(!json.isNull("notas")) {
                             notas = new String(json.getString("notas"));
+                            notas = Html.fromHtml(notas).toString();
+                        }
                         else
                             notas = "";
-                        if(!json.isNull("mpadis"))
+                        if(!json.isNull("mpadis")) {
                             mpadis = new Integer(json.getInt("mpadis"));
+                            nombre = Html.fromHtml(nombre).toString();
+                        }
                         else
                             mpadis = 0;
-                        if(json.isNull("link") || json.getString("link").equals(""))
+                        if(json.isNull("link") || json.getString("link").equals("")) {
+                            nombre = Html.fromHtml(nombre).toString();
                             link = "(:";
+                        }
                         else
                             link = json.getString("link");
                         if(!json.isNull("limit"))

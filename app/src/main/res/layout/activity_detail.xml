@@ -245,7 +245,7 @@
                         android:id="@+id/mpadis_cardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="MPADIS"
+                        android:text="Mpadis"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                     <TextView
@@ -297,7 +297,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/card_margin"
                 android:layout_marginRight="@dimen/card_margin"
-                android:layout_marginTop="@dimen/card_margin">
+                android:layout_marginTop="@dimen/card_margin"
+                android:layout_marginBottom="10dp">
 
                 <LinearLayout
                     style="@style/Widget.CardContent"
