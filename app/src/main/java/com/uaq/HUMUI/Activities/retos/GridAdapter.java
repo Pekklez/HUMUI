@@ -45,7 +45,7 @@ public class GridAdapter extends ArrayAdapter<Reto> {
             view = inflater.inflate(R.layout.grid_item, viewGroup, false);
         }
 
-        ImageButton imageButton = (ImageButton) view.findViewById(R.id.buttonIngresarReto);
+
 
         final Reto item = getItem(position);
 
@@ -60,6 +60,8 @@ public class GridAdapter extends ArrayAdapter<Reto> {
         // Seteando Precio
         final TextView date = (TextView) view.findViewById(R.id.date);
         date.setText(item.getMPADIS().toString());
+
+        ImageButton imageButton = (ImageButton) view.findViewById(R.id.buttonIngresarReto);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

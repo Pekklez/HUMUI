@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.uaq.HUMUI.Activities.retos.DetailActivity;
 import com.uaq.HUMUI.Activities.retos.Reto;
 import com.uaq.HUMUI.R;
 
@@ -55,10 +57,12 @@ public class GridAdapterCumplidos extends ArrayAdapter<Reto> {
         final TextView date = (TextView) view.findViewById(R.id.date);
         date.setText(item.getMPADIS().toString());
 
-        view.setOnClickListener(new View.OnClickListener() {
+        ImageButton imageButton = (ImageButton) view.findViewById(R.id.buttonIngresarReto);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(mContext, DetailRetoInscritoActivity.class);
+                Intent myIntent = new Intent(mContext, DetailActivity.class);
                 myIntent.putExtra("EXTRA__IDUSER", IdUser);
                 myIntent.putExtra("EXTRA__ID", item.get_id());
                 myIntent.putExtra("EXTRA_NAME", name.getText());
@@ -72,7 +76,6 @@ public class GridAdapterCumplidos extends ArrayAdapter<Reto> {
                 myIntent.putExtra("EXTRA_MPADIS", item.getMPADIS());
                 myIntent.putExtra("EXTRA_LINK", item.getLink());
                 myIntent.putExtra("EXTRA_LIMITE", item.getLimite());
-                myIntent.putExtra("EXTRA_HASHTAG", item.getHashtag());
 
                 v.getContext().startActivity(myIntent);
             }
