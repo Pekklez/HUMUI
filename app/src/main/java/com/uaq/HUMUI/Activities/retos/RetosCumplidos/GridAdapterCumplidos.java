@@ -62,7 +62,7 @@ public class GridAdapterCumplidos extends ArrayAdapter<Reto> {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(mContext, DetailActivity.class);
+                Intent myIntent = new Intent(mContext, DetailRetoInscritoActivity.class);
                 myIntent.putExtra("EXTRA__IDUSER", IdUser);
                 myIntent.putExtra("EXTRA__ID", item.get_id());
                 myIntent.putExtra("EXTRA_NAME", name.getText());
