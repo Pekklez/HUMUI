@@ -54,6 +54,7 @@
         </LinearLayout>
 
         <ImageButton
+            android:id="@+id/buttonIngresarReto"
             android:layout_width="@dimen/grid_item_image_size"
             android:layout_height="match_parent"
             android:layout_gravity="right"

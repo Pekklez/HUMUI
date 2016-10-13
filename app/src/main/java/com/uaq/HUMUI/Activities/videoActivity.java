@@ -155,8 +155,6 @@ class getVideo extends AsyncTask<String, Void, JSONObject> {
                 String TAG3 = "VIDEO ID--------->";
                 Log.v(TAG3,  this.video);
 
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
