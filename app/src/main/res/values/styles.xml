@@ -80,4 +80,12 @@ a
             <item name="windowActionBarOverlay">true</item>
 
         </style>
-    </resources>
+
+    <!-- Splash Screen -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+        <item name="android:statusBarColor">#546E7A</item>
+    </style>
+
+
+</resources>

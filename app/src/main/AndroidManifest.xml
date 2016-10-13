@@ -50,11 +50,6 @@
         <activity
             android:name=".Activities.videoActivity"
             android:theme="@style/Theme_VideoActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.categorias.sustentabilidadActivity"
@@ -81,6 +76,16 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.retos.RetosCumplidos.DetailRetoInscritoActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".Activities.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 </manifest>
