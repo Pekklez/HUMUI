@@ -61,6 +61,28 @@ public class GridAdapter extends ArrayAdapter<Reto> {
         final TextView date = (TextView) view.findViewById(R.id.date);
         date.setText(item.getMPADIS().toString());
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(mContext, DetailActivity.class);
+                myIntent.putExtra("EXTRA__IDUSER", IdUser);
+                myIntent.putExtra("EXTRA__ID", item.get_id());
+                myIntent.putExtra("EXTRA_NAME", name.getText());
+                myIntent.putExtra("EXTRA_CATEGORIA", item.getCategoria());
+                myIntent.putExtra("EXTRA_DESCRIPCION", item.getDescripcion());
+                myIntent.putExtra("EXTRA_HISTORIA", item.getHistoria());
+                myIntent.putExtra("EXTRA_CONTACTO", item.getContacto());
+                myIntent.putExtra("EXTRA_VIGENCIA", item.getVigencia());
+                myIntent.putExtra("EXTRA_LOGISTICA", item.getLogistica());
+                myIntent.putExtra("EXTRA_NOTAS", item.getNotas());
+                myIntent.putExtra("EXTRA_MPADIS", item.getMPADIS());
+                myIntent.putExtra("EXTRA_LINK", item.getLink());
+                myIntent.putExtra("EXTRA_LIMITE", item.getLimite());
+
+                v.getContext().startActivity(myIntent);
+            }
+        });
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
