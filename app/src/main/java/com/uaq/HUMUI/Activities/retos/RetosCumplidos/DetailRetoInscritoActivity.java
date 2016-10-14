@@ -9,7 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -91,7 +92,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_inscrito);
 
-        ImageButton imageShare = (ImageButton) findViewById(R.id.shareFB);
+        FloatingActionButton imageShare = (FloatingActionButton) findViewById(R.id.accion_facebook);
 
         shareDialog = new ShareDialog(this);  // intialize facebook shareDialog.
 
@@ -172,8 +173,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
 
 
         // Setear escucha al FAB
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_white_24dp));
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.accion_salirReto);
         fab.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -218,7 +218,7 @@ public class DetailRetoInscritoActivity extends AppCompatActivity {
                 }
         );
 
-        ImageButton btn_shareTw = (ImageButton)findViewById(R.id.shareTw);
+        FloatingActionButton btn_shareTw = (FloatingActionButton) findViewById(R.id.accion_twitter);
         btn_shareTw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

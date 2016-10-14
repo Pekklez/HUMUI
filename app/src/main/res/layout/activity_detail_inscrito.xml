@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -324,59 +325,6 @@
 
             </android.support.v7.widget.CardView>
 
-
-            <!-- Card Compartir -->
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/card_margin"
-                android:layout_marginRight="@dimen/card_margin"
-                android:layout_marginTop="@dimen/card_margin">
-
-                <LinearLayout
-                    style="@style/Widget.CardContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/compartir"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Compartir"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <android.support.percent.PercentRelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        app:layout_heightPercent="50%"
-                        android:background="#FFFFFF"
-                        android:layout_centerHorizontal="true">
-
-                        <ImageButton
-                            android:id="@+id/shareFB"
-                            android:layout_width="0dp"
-                            android:layout_height="35dp"
-                            app:layout_widthPercent="40%"
-                            android:background="@mipmap/btn_facebook_share"
-                            android:layout_marginRight="10dp"
-                            />
-
-                        <ImageButton
-                            android:id="@+id/shareTw"
-                            android:layout_width="0dp"
-                            android:layout_height="35dp"
-                            app:layout_widthPercent="40%"
-                            android:layout_toRightOf="@+id/shareFB"
-                            android:background="@mipmap/btn_twitter_share"
-                            />
-                    </android.support.percent.PercentRelativeLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-
-
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
@@ -402,12 +350,46 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/menu_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_done_white_24dp" />
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        fab:fab_addButtonColorNormal="?attr/colorAccent"
+        fab:fab_addButtonSize="normal"
+        fab:fab_labelStyle="@style/Etiquetas"
+        fab:fab_icon="@drawable/share"
+        fab:fab_labelsPosition="left"
+        >
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/accion_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/verde"
+            fab:fab_icon="@drawable/facebook"
+            fab:fab_size="mini"
+            fab:fab_title="Facebook" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/accion_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/verde"
+            fab:fab_icon="@drawable/twitter"
+            fab:fab_size="mini"
+            fab:fab_title="Twitter" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/accion_salirReto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/verde"
+            fab:fab_icon="@drawable/remove"
+            fab:fab_size="mini"
+            fab:fab_title="Salir de Reto" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </android.support.design.widget.CoordinatorLayout>

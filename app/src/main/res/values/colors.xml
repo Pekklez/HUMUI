@@ -30,6 +30,9 @@
 <color name="transparent">#00000000</color>
 <color name="semitransparent">#33000000</color>
 <color name="statusBarColor">#a90066fe</color>
-    <color name="black">#00796b</color>
+<color name="black">#00796b</color>
+
+
+<color name="negro_semitransparente">#B2000000</color>
 
 </resources>
