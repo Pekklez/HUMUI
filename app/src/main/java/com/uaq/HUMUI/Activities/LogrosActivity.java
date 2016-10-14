@@ -1,18 +1,23 @@
 package com.uaq.HUMUI.Activities;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -25,9 +30,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.uaq.HUMUI.Activities.retos.ActividadPrincipal;
+import com.uaq.HUMUI.Activities.retos.JSONParser;
 import com.uaq.HUMUI.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class LogrosActivity extends AppCompatActivity {
@@ -36,16 +52,43 @@ public class LogrosActivity extends AppCompatActivity {
     int viewWidth;
     GestureDetector gestureDetector = null;
     HorizontalScrollView horizontalScrollView;
+
+
     ImageView imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9,imageView10
-            ,imageView11,imageView12,imageView13,imageView14,imageView15;
+            ,imageView11,imageView12,imageView13,imageView14,imageView15,imageView16,imageView17,imageView18,imageView19,imageView20,
+            imageView21,imageView22;
+
+
     ArrayList<LinearLayout> layouts;
-    int parentLeft, parentRight;
     int mWidth;
-    int currPosition, prevPosition;
+    int currPosition;
+
+    private static String url = "http://ingenieria.uaq.mx/humui/api/token/humui2016token/publication/list/";
+    private static String url_image = "http://ingenieria.uaq.mx/humui/";
+
+    public String[] images_array_url;
+    public String[] images_array_comentario;
+
+    public Integer numProducts;
+    String imagen, mpadis, categoria, descripcion, nombre;
+
+    public ProgressDialog progressDialog;
+
+    JSONArray recompensa = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logros);
+
+        progressDialog = new ProgressDialog(LogrosActivity.this);
+        progressDialog.setMessage("Cargando Retos...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        //---GALERIA
+        new JSONParse().execute();
 
         //-------------REDONDEAR FOTOS
         imageView3 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView3);
@@ -61,27 +104,19 @@ public class LogrosActivity extends AppCompatActivity {
         imageView13 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView13);
         imageView14 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView14);
         imageView15 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView15);
-
-        imageView3.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_barometro)));
-        imageView4.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_bluedio)));
-        imageView5.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_calculadora)));
-        imageView6.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_derwent)));
-        imageView7.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_discoduro)));
-        imageView8.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_herramienta)));
-        imageView9.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_kingston)));
-        imageView10.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_lapices_de_color)));
-        imageView11.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_laptop)));
-        imageView12.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_mochila)));
-        imageView13.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_mouse)));
-        imageView14.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_multimetro)));
-        imageView15.setImageDrawable(getRounded(getDrawable(com.uaq.HUMUI.R.mipmap.mpadis_tablet)));
+        imageView16 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView16);
+        imageView17 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView17);
+        imageView18 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView18);
+        imageView19 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView19);
+        imageView20 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView20);
+        imageView21 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView21);
+        imageView22 = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageView22);
 
         //-------------GALERIA
 
         LinearLayout prev = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.prev);
         LinearLayout next = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.next);
         horizontalScrollView =(HorizontalScrollView)findViewById(com.uaq.HUMUI.R.id.horizontalScrollView);
-        gestureDetector = new GestureDetector(new MyGestureDetector());
         LinearLayout linearLayout1 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild1);
         LinearLayout linearLayout2 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild2);
         LinearLayout linearLayout3 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild3);
@@ -95,6 +130,13 @@ public class LogrosActivity extends AppCompatActivity {
         LinearLayout linearLayout11 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild11);
         LinearLayout linearLayout12 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild12);
         LinearLayout linearLayout13 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild13);
+        LinearLayout linearLayout14 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild14);
+        LinearLayout linearLayout15 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild15);
+        LinearLayout linearLayout16 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild16);
+        LinearLayout linearLayout17 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild17);
+        LinearLayout linearLayout18 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild18);
+        LinearLayout linearLayout19 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild19);
+        LinearLayout linearLayout20 = (LinearLayout)findViewById(com.uaq.HUMUI.R.id.linearChild20);
 
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -116,6 +158,13 @@ public class LogrosActivity extends AppCompatActivity {
         linearLayout11.setLayoutParams(params);
         linearLayout12.setLayoutParams(params);
         linearLayout13.setLayoutParams(params);
+        linearLayout14.setLayoutParams(params);
+        linearLayout15.setLayoutParams(params);
+        linearLayout16.setLayoutParams(params);
+        linearLayout17.setLayoutParams(params);
+        linearLayout18.setLayoutParams(params);
+        linearLayout19.setLayoutParams(params);
+        linearLayout20.setLayoutParams(params);
 
         layouts.add(linearLayout1);
         layouts.add(linearLayout2);
@@ -130,6 +179,13 @@ public class LogrosActivity extends AppCompatActivity {
         layouts.add(linearLayout11);
         layouts.add(linearLayout12);
         layouts.add(linearLayout13);
+        layouts.add(linearLayout14);
+        layouts.add(linearLayout15);
+        layouts.add(linearLayout16);
+        layouts.add(linearLayout17);
+        layouts.add(linearLayout18);
+        layouts.add(linearLayout19);
+        layouts.add(linearLayout20);
 
         //------------POP-UP
         imageView3.setOnClickListener(new View.OnClickListener() {
@@ -210,45 +266,109 @@ public class LogrosActivity extends AppCompatActivity {
                 showImage(imageView15.getDrawable());
             }
         });
-
-
-
-        next.setOnClickListener(new View.OnClickListener() {
+        imageView16.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX()+viewWidth,
-                                (int)horizontalScrollView.getScrollY());
-                    }
-                },100L);
+                showImage(imageView16.getDrawable());
+            }
+        });
+        imageView17.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage(imageView17.getDrawable());
             }
         });
 
-        prev.setOnClickListener(new View.OnClickListener() {
+        imageView18.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        horizontalScrollView.smoothScrollTo((int)horizontalScrollView.getScrollX()-viewWidth,
-                                (int)horizontalScrollView.getScrollY());
-                    }
-                },100L);
+                showImage(imageView18.getDrawable());
             }
         });
 
-        /**
-        horizontalScrollView.setOnTouchListener(new OnTouchListener() {
+        imageView19.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(gestureDetector.onTouchEvent(event)){
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+                showImage(imageView19.getDrawable());
             }
-        });*/
+        });
+        imageView20.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage(imageView20.getDrawable());
+            }
+        });
+        imageView21.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage(imageView21.getDrawable());
+            }
+        });
+        imageView22.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImage(imageView22.getDrawable());
+            }
+        });
+
+    }
+
+    public void cargarFotos(){
+        int y = 0;
+        for (int i = 0 ; i < numProducts ; i++)
+        {
+            int[] imv_id= {com.uaq.HUMUI.R.id.imageView3,
+                    com.uaq.HUMUI.R.id.imageView4,
+                    com.uaq.HUMUI.R.id.imageView5,
+                    com.uaq.HUMUI.R.id.imageView6,
+                    com.uaq.HUMUI.R.id.imageView7,
+                    com.uaq.HUMUI.R.id.imageView8,
+                    com.uaq.HUMUI.R.id.imageView9,
+                    com.uaq.HUMUI.R.id.imageView10,
+                    com.uaq.HUMUI.R.id.imageView11,
+                    com.uaq.HUMUI.R.id.imageView12,
+                    com.uaq.HUMUI.R.id.imageView13,
+                    com.uaq.HUMUI.R.id.imageView14,
+                    com.uaq.HUMUI.R.id.imageView15,
+                    com.uaq.HUMUI.R.id.imageView16,
+                    com.uaq.HUMUI.R.id.imageView17,
+                    com.uaq.HUMUI.R.id.imageView18,
+                    com.uaq.HUMUI.R.id.imageView19,
+                    com.uaq.HUMUI.R.id.imageView20,
+                    com.uaq.HUMUI.R.id.imageView21,
+                    com.uaq.HUMUI.R.id.imageView22};
+
+            int[] nombre_id= {R.id.nombre3,
+                    R.id.nombre4,
+                    com.uaq.HUMUI.R.id.nombre5,
+                    com.uaq.HUMUI.R.id.nombre6,
+                    com.uaq.HUMUI.R.id.nombre7,
+                    com.uaq.HUMUI.R.id.nombre8,
+                    com.uaq.HUMUI.R.id.nombre9,
+                    com.uaq.HUMUI.R.id.nombre10,
+                    com.uaq.HUMUI.R.id.nombre11,
+                    com.uaq.HUMUI.R.id.nombre12,
+                    com.uaq.HUMUI.R.id.nombre13,
+                    com.uaq.HUMUI.R.id.nombre14,
+                    com.uaq.HUMUI.R.id.nombre15,
+                    com.uaq.HUMUI.R.id.nombre16,
+                    com.uaq.HUMUI.R.id.nombre17,
+                    com.uaq.HUMUI.R.id.nombre18,
+                    com.uaq.HUMUI.R.id.nombre19,
+                    com.uaq.HUMUI.R.id.nombre20,
+                    com.uaq.HUMUI.R.id.nombre21,
+                    com.uaq.HUMUI.R.id.nombre22};
+
+            if(i<20) {
+                ImageView imv = (ImageView) findViewById(imv_id[y]);
+                TextView txvn = (TextView) findViewById(nombre_id[y]);
+                new getUserPicFB(imv).execute(url_image + images_array_url[i]);
+                txvn.setText(images_array_comentario[i]);
+                y++;
+            }else {
+                break;
+            }
+        }
     }
 
     public void showImage(Drawable imagen) {
@@ -278,38 +398,126 @@ public class LogrosActivity extends AppCompatActivity {
         roundedDrawable.setCornerRadius(50);
         return roundedDrawable;
     }
-    class MyGestureDetector extends SimpleOnGestureListener {
+
+
+    class getUserPicFB extends AsyncTask<String, Void, Bitmap> {
+        ImageView imageView;
+
+        public getUserPicFB(ImageView imageView){
+            this.imageView = imageView;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            int width = result.getWidth();
+            int height = result.getHeight();
+            int newW = 300;
+            int newH = 300;
+            float scaleW = ((float)newW)/width;
+            float scaleH = ((float)newH)/height;
+            Matrix x = new Matrix();
+            x.postScale(scaleW,scaleH);
+            Bitmap resized = Bitmap.createBitmap(result,0,0,width,height,x,true);
+            RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(Resources.getSystem() , resized);
+            roundedDrawable.setCornerRadius(resized.getHeight());
+            imageView.setImageDrawable(roundedDrawable);
+        }
+    }
+
+    public  class JSONParse extends AsyncTask<String, String, JSONObject>{
+
+        private JSONParse instance;
+
+
+        public JSONParse(){}
+
         @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                               float velocityY) {
-            if (e1.getX() < e2.getX()) {
-                currPosition = getVisibleViews("left");
-            } else {
-                currPosition = getVisibleViews("right");
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+
+            String fullString = "";
+            URL url_url = null;
+            JSONObject jsonObject = null;
+            JSONParser jsonParser;
+            try {
+                url_url = new URL(url);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(url_url.openStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    fullString += line;
+                }
+                reader.close();
+
+
+                jsonParser = new JSONParser();
+                jsonObject = new JSONObject("{\"logros\":"+fullString+"}");
+
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return jsonObject;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+
+            // Getting JSON Array
+            try {
+                recompensa = jsonObject.getJSONArray("logros");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            horizontalScrollView.smoothScrollTo(layouts.get(currPosition)
-                    .getLeft(), 0);
-            return true;
-        }
-    }
-    public int getVisibleViews(String direction) {
-        Rect hitRect = new Rect();
-        int position = 0;
-        int rightCounter = 0;
-        for (int i = 0; i < layouts.size(); i++) {
-            if (layouts.get(i).getLocalVisibleRect(hitRect)) {
-                if (direction.equals("left")) {
-                    position = i;
-                    break;
-                } else if (direction.equals("right")) {
-                    rightCounter++;
-                    position = i;
-                    if (rightCounter == 2)
-                        break;
+            images_array_url = new String[recompensa.length()];
+            images_array_comentario = new String[recompensa.length()];
+            numProducts = recompensa.length();
+
+
+            for (int i = 0; i < recompensa.length(); i++) {
+                JSONObject json = null;
+                try {
+                    json = recompensa.getJSONObject(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    imagen = new String(json.getString("image"));
+                    nombre = new String(json.getString("text"));
+
+                    images_array_url[i] = imagen;
+                    images_array_comentario[i] = nombre;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
+
+            cargarFotos();
+            if(progressDialog.isShowing()) {
+                progressDialog.cancel();
+            }
         }
-        return position;
     }
 }
+
+

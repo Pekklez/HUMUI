@@ -124,14 +124,14 @@ public class loggedActivity extends AppCompatActivity {
             }
         });
 
-        /*ImageView imageViewLogros = (ImageView)findViewById(R.id.imageViewLogros);
+        ImageView imageViewLogros = (ImageView)findViewById(com.uaq.HUMUI.R.id.imageViewLogros);
         imageViewLogros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentMenuActivity = new Intent(loggedActivity.this, LogrosActivity.class);
                 startActivity(intentMenuActivity);
             }
-        });*/
+        });
     }
 }
 class getUserPicFB extends AsyncTask<String, Void, Bitmap>{
