@@ -2,6 +2,7 @@ package com.uaq.HUMUI.Activities;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.os.Handler;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -25,6 +27,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -395,7 +398,7 @@ public class LogrosActivity extends AppCompatActivity {
     public RoundedBitmapDrawable getRounded(Drawable drawable){
         Bitmap image =((BitmapDrawable)drawable).getBitmap();
         RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(Resources.getSystem() , image);
-        roundedDrawable.setCornerRadius(50);
+        roundedDrawable.setCornerRadius(10);
         return roundedDrawable;
     }
 
@@ -422,10 +425,27 @@ public class LogrosActivity extends AppCompatActivity {
 
         protected void onPostExecute(Bitmap result) {
 
+            WindowManager wm = (WindowManager) getBaseContext().getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            DisplayMetrics metrics = new DisplayMetrics();
+            display.getMetrics(metrics);
+
+
             int width = result.getWidth();
             int height = result.getHeight();
-            int newW = 300;
-            int newH = 300;
+            int newW = 1;
+            int newH = 1;
+
+            if(metrics.widthPixels > metrics.heightPixels){
+                newH = metrics.heightPixels-20;
+                newW = metrics.heightPixels-20;
+            }else {
+                if(metrics.widthPixels < metrics.heightPixels) {
+                    newH = metrics.widthPixels-20;
+                    newW = metrics.widthPixels-20;
+                }
+            }
+
             float scaleW = ((float)newW)/width;
             float scaleH = ((float)newH)/height;
             Matrix x = new Matrix();
