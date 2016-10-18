@@ -58,13 +58,8 @@ public class Retos {
     public  class JSONParse extends AsyncTask<String, String, JSONObject>{
 
         private JSONParse instance;
-
-
         public JSONParse(){
-
         }
-
-
         @Override
         protected void onPreExecute() {
         }
@@ -75,7 +70,7 @@ public class Retos {
             String fullString = "";
             URL url_url = null;
             JSONObject jsonObject = null;
-            JSONParser jsonParser;
+
             try {
                 url_url = new URL(url);
 
@@ -87,7 +82,6 @@ public class Retos {
             reader.close();
 
 
-            jsonParser = new JSONParser();
             jsonObject = new JSONObject("{\"reto\":"+fullString+"}");
 
             } catch (java.io.IOException e) {

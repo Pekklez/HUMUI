@@ -5,19 +5,6 @@ import java.util.UUID;
 
 public class Reto {
     private UUID mId;
-    private String mTitle;
-
-    public String getActividad() {
-        return Actividad;
-    }
-
-    public void setActividad(String actividad) {
-        Actividad = actividad;
-    }
-
-
-
-
 
     public String getContacto() {
         return Contacto;
@@ -35,9 +22,6 @@ public class Reto {
         Vigencia = vigencia;
     }
 
-
-
-    private String Actividad;
     private String _id;
 
     public String getNombre() {
@@ -133,44 +117,14 @@ public class Reto {
     }
 
     private String hashtag;
-    private Date mDate;
-    private boolean solved;
 
-    public String getmTitle() {
-        return mTitle;
-    }
 
-    public void setmTitle(String mTitle) {
-        this.mTitle = mTitle;
-    }
 
     public Reto(){
         mId = UUID.randomUUID();
-        mDate = new Date();
     }
-
-    public boolean isSolved() {
-        return solved;
-    }
-
-    public void setSolved(boolean solved) {
-        this.solved = solved;
-    }
-
-    public Date getmDate() {
-        return mDate;
-    }
-
-    public void setmDate(Date mDate) {
-        this.mDate = mDate;
-    }
-
     public UUID getId() {
         return mId;
-    }
-    @Override
-    public String toString(){
-        return mTitle;
     }
 
     public String get_id() {
